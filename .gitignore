@@ -6,9 +6,4 @@ Temp
 Library
 *.unityproj
 *.suo
-<<<<<<< HEAD
 obj
-=======
-obj
-Assets/Sound
->>>>>>> 6ed948e651818c5add04c153ad1484496c9cf1e6
