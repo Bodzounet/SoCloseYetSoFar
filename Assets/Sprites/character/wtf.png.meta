@@ -50,30 +50,30 @@ TextureImporter:
     - name: wtf_0
       rect:
         serializedVersion: 2
-        x: 84
+        x: 252
         y: 0
-        width: 31
-        height: 59
+        width: 93
+        height: 157
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: wtf_1
       rect:
         serializedVersion: 2
-        x: 50
+        x: 150
         y: 0
-        width: 31
-        height: 59
+        width: 93
+        height: 157
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: wtf_2
       rect:
         serializedVersion: 2
-        x: 22
+        x: 66
         y: 0
-        width: 25
-        height: 59
+        width: 75
+        height: 157
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -82,8 +82,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 19
-        height: 59
+        width: 57
+        height: 157
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}

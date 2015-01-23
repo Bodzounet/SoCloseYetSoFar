@@ -1,23 +1,55 @@
-﻿using UnityEngine;
+﻿using SimpleJSON;
+using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class GenerateMapPrefab : MonoBehaviour {
+public class                                GenerateMapPrefab : MonoBehaviour 
+{
+    public GameObject                       newPrefab;
+    public TextAsset                        JSon;
 
-    public GameObject item;
+    public GameObject[]                     prefabs;
+    private Dictionary<string, GameObject>  dPrefabs;
 
-    public GameObject createdPrefab;
-
-	void Start () 
+	void Awake () 
     {
-        GameObject go;
+        initMap();
 
-	    for (int i = 0; i < 10; i++)
+        var                 N = JSON.Parse(JSon.text);
+
+        int                 height = N["height"].AsInt;
+        int                 width = N["width"].AsInt;
+
+        int                 id;
+        string              name = null;
+        GameObject          go;
+        
+        Vector2             spawnPos = Vector2.zero;
+        float               incrXY = prefabs[0].renderer.bounds.size.x;         // a bit dangerous, segF if no prefabs.count == 0 or no prefabs[0].renderer == null, but in both case, it is not supposed to.
+
+        for (int i = 0; i < height; i++)
         {
-            go = Instantiate(item, Vector3.right * (i + 1), Quaternion.identity) as GameObject;
-            go.transform.parent = createdPrefab.transform;
-        }
+            for (int j = 0; j < width; j++)
+            {
+                id = N["layers"][0]["data"][i * height + j].AsInt;
+                for (int k = 0; k < N["tilesets"].Count; k++)
+                    if (N["tilesets"][i]["firstgid"].AsInt == id)
+                        name = N["tilesets"][i]["name"];                        // also dangerous, if name is never assigned, but it's not supposed to occur if json file is OK.
 
-        UnityEditor.PrefabUtility.CreatePrefab("Assets/prefab/testPrefab.prefab", createdPrefab, UnityEditor.ReplacePrefabOptions.Default);
+                go = Instantiate(dPrefabs[name], spawnPos, Quaternion.identity) as GameObject;
+                go.transform.parent = newPrefab.transform;
+                spawnPos.x += incrXY;
+            }
+            spawnPos.x = 0;
+            spawnPos.y += incrXY;
+        }
+        UnityEditor.PrefabUtility.CreatePrefab("Assets/prefab/testPrefab.prefab", newPrefab, UnityEditor.ReplacePrefabOptions.Default);
 	}
 
+    void                                    initMap()
+    {
+        dPrefabs = new Dictionary<string, GameObject>();
+        foreach (GameObject go in prefabs)
+            dPrefabs.Add(go.name, go);
+    }
 }
