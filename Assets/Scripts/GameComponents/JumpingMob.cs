@@ -12,7 +12,6 @@ public class            JumpingMob : MonoBehaviour
         if (!_isJumping)
         {
             _isJumping = true;
-            _unique = true;
             rigidbody2D.velocity = new Vector2(0, _jumpingSpeed);
         }
 	}
@@ -20,15 +19,15 @@ public class            JumpingMob : MonoBehaviour
     void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.tag == "Ground" && _unique)
-        {
-            _unique = false;
             StartCoroutine("rejump");
-        }
     }
 
     IEnumerator rejump()
     {
+        _unique = false;
         yield return new WaitForSeconds(3);
         _isJumping = false;
+        _unique = true;
+
     }
 }

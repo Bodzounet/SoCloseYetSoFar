@@ -7,12 +7,10 @@ public class                        CharacterController : MonoBehaviour
     public float                    _jumpSpeed;                             // jumping intensity
     public float                    _ladderSpeed;                           // ladder speed
     
-    private bool                    _grounded = false;                      // jump
     private bool                    _doubleJump = false;                    // i don't think it needs any explaination;
     private bool                    _climbing = false;                      // climb
     private bool                    _lookLeft = false;                      // is the character looking left
 
-    private bool                    _onMovingPlateform = false;             // we must let the platorm impose it velocity
     private bool                    _isDead = false;
 
     
@@ -22,8 +20,14 @@ public class                        CharacterController : MonoBehaviour
     private Transform               _t;                                     // transform
     private Rigidbody2D             _rb2d;                                  // rigidbody2d
 
+    float                           _sizeX;
+    float                           _sizeY;
+
 	void Start () 
     {
+        _sizeX = GetComponent<BoxCollider2D>().size.x;
+        _sizeY = GetComponent<BoxCollider2D>().size.y;
+
         _gravityScale = rigidbody2D.gravityScale;
         _anim = GetComponent<Animator>();
         _t = GetComponent<Transform>();
@@ -35,15 +39,17 @@ public class                        CharacterController : MonoBehaviour
       if (_isDead == true)
         return;
 
-        float actualSpeed = (_climbing && !_grounded) ? _speed / 5 : _speed;
+        float actualSpeed = _speed;
         float HAxis = Input.GetAxis("Horizontal");
         float VAxis = Input.GetAxis("Vertical");
 
         Vector2 newVelocity;
 
-        if (_onMovingPlateform)
+        _climbing = isClimbing();
+
+        if (isOnMovingPlateform()) // the plateform must impose its velocity
             newVelocity = rigidbody2D.velocity;
-        else
+        else                       // otherwise, we just keep the Y component is case of fall, the X is set to 0 for an instant stop
             newVelocity = new Vector2(0, rigidbody2D.velocity.y);
 
         if (HAxis == 0)
@@ -76,12 +82,8 @@ public class                        CharacterController : MonoBehaviour
             else
                 newVelocity.y = 0;
 
-        if ((_grounded || _doubleJump || _climbing || _onMovingPlateform) && Input.GetButton("Jump"))
-        {
-            _grounded = false;
-            _doubleJump = false;
-            newVelocity.y = _jumpSpeed;
-        }
+        if (Input.GetButton("Jump"))
+            newVelocity.y = jump(newVelocity.y);
 
         rigidbody2D.velocity = newVelocity;
         fixWallBug();
@@ -89,108 +91,110 @@ public class                        CharacterController : MonoBehaviour
         _anim.SetFloat("verticalVelocity", _rb2d.velocity.y);
 	}
 
+    bool isClimbing()
+    {
+        int layer = 1 << LayerMask.NameToLayer("Player");
+        layer = ~layer;
+
+        RaycastHit2D hit1 = Physics2D.Linecast(transform.position + new Vector3(-_sizeX * 0.3f, _sizeY * 0.2f, 0), transform.position + new Vector3(_sizeX * 0.3f, _sizeY * 0.2f, 0), layer);
+        RaycastHit2D hit2 = Physics2D.Linecast(transform.position + new Vector3(-_sizeX * 0.3f, -_sizeY * 0.8f, 0), transform.position + new Vector3(_sizeX * 0.3f, -_sizeY * 0.8f, 0), layer);
+
+        if ((hit1 && hit1.transform.gameObject.tag == "Ladder") || (hit2 && hit2.transform.gameObject.tag == "Ladder"))
+        {
+            rigidbody2D.gravityScale = 0;
+            _anim.SetBool("isOnLadder", true);
+            return true;
+        }
+        rigidbody2D.gravityScale = _gravityScale;
+        _anim.SetBool("isOnLadder", false);
+        return false;
+    }
+
+    bool isOnMovingPlateform()
+    {
+        RaycastHit2D hit = Physics2D.Linecast(transform.position + new Vector3(-_sizeX * 0.9f, -_sizeY * 0.1f, 0), transform.position + new Vector3(_sizeX * 0.9f, -_sizeY * 0.1f, 0));
+        if (hit && hit.transform.gameObject.tag == "MovingPlateform")
+            return true;
+        return false;
+    }
+
+    float jump(float currentVal)
+    {
+        RaycastHit2D hit = Physics2D.Linecast(transform.position + new Vector3(-_sizeX * 0.9f, -_sizeY * 0.1f, 0), transform.position + new Vector3(_sizeX * 0.9f, -_sizeY * 0.1f, 0));
+        if ((hit && (hit.transform.gameObject.tag == "Ground" || hit.transform.gameObject.tag == "MovingPlateform")) || _doubleJump)
+        {
+            _doubleJump = false;
+            return _jumpSpeed;
+        }
+        return currentVal;
+    }
+
     void fixWallBug()
     {
-        float sizeX = GetComponent<BoxCollider2D>().size.x;
-        float sizeY = GetComponent<BoxCollider2D>().size.y;
+        float X = _sizeX;
 
         if (_lookLeft)
-            sizeX *= -1;
+            X *= -1;
 
-        if (Physics2D.Linecast(transform.position + new Vector3(sizeX, 0, 0), transform.position + new Vector3(sizeX, sizeY, 0)))
+        if (Physics2D.Linecast(transform.position + new Vector3(X, 0, 0), transform.position + new Vector3(X, _sizeY, 0)))
             rigidbody2D.velocity = new Vector2(0, rigidbody2D.velocity.y);
-        if (Physics2D.Linecast(transform.position + new Vector3(-sizeX * 0.5f, sizeY * 1.1f, 0), transform.position + new Vector3(sizeX * 0.5f, sizeY * 1.1f, 0)))
+        if (Physics2D.Linecast(transform.position + new Vector3(-X * 0.5f, _sizeY * 1.1f, 0), transform.position + new Vector3(X * 0.5f, _sizeY * 1.1f, 0)))
             rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, -1);
     }
 
-    void OnDrawGizmos()
-    {
-        float sizeX = GetComponent<BoxCollider2D>().size.x;
-        float sizeY = GetComponent<BoxCollider2D>().size.y;
+    //void OnDrawGizmos()
+    //{
+    //    float sizeX = GetComponent<BoxCollider2D>().size.x;
+    //    float sizeY = GetComponent<BoxCollider2D>().size.y;
 
-        if (_lookLeft)
-            sizeX *= -1;
+    //    if (_lookLeft)
+    //        sizeX *= -1;
 
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(transform.position + new Vector3(-sizeX * 0.5f, sizeY * 1.1f, 0), transform.position + new Vector3(sizeX * 0.5f, sizeY * 1.1f, 0));
-        Gizmos.DrawLine(transform.position + new Vector3(sizeX, 0, 0), transform.position + new Vector3(sizeX, sizeY, 0));
-    }
+    //    Gizmos.color = Color.green;
+    //    Gizmos.DrawLine(transform.position + new Vector3(-sizeX * 0.5f, sizeY * 1.1f, 0), transform.position + new Vector3(sizeX * 0.5f, sizeY * 1.1f, 0));
+    //    Gizmos.color = Color.blue;
+    //    Gizmos.DrawLine(transform.position + new Vector3(sizeX, 0, 0), transform.position + new Vector3(sizeX, sizeY, 0));
+    //    Gizmos.color = Color.yellow;
+    //    Gizmos.DrawLine(transform.position + new Vector3(-sizeX * 0.9f, -sizeY * 0.1f, 0), transform.position + new Vector3(sizeX * 0.9f, -sizeY * 0.1f, 0));
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawLine(transform.position + new Vector3(-_sizeX * 0.3f, _sizeY * 0.3f, 0), transform.position + new Vector3(_sizeX * 0.3f, _sizeY * 0.3f, 0));
+    //    Gizmos.DrawLine(transform.position + new Vector3(-_sizeX * 0.3f, _sizeY * 0.6f, 0), transform.position + new Vector3(_sizeX * 0.3f, _sizeY * 0.6f, 0));
+        
+    //}
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Ground")
+        if (col.gameObject.tag == "Ground" || col.gameObject.tag == "MovingPlateform")
             endJump();
-        //else if (col.gameObject.tag == "SpringBoard")
-        //    startSpringBoard();
-        else if (col.gameObject.tag == "MovingPlateform")
-        {
-            _onMovingPlateform = true;
-            endJump();
-        }
     }
 
     void OnCollisionExit2D(Collision2D col)
     {
         if (col.gameObject.tag == "Ground")
-        {
-            _grounded = false;
             _anim.SetBool("isGrounded", false);
-        }
-        else if (col.gameObject.tag == "MovingPlateform")
-        {
-            _grounded = false;
-            _onMovingPlateform = false;
-        }
     }
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.tag == "Ladder" && _rb2d.velocity.y <= 0)
-            startClimbingMode();
-        else if (col.tag == "BonusDoubleJump")
+         if (col.tag == "BonusDoubleJump")
             getDoubleJump(col);
-    }
-     
-
-    void OnTriggerExit2D(Collider2D col)
-    {
-        if (col.tag == "Ladder")
-            endClimbingMode();
     }
 
     public void startJump()
     {
-        _grounded = false;
         _doubleJump = false;
         rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, _jumpSpeed);
     }
 
     void endJump()
     {
-        _grounded = true;
         _doubleJump = false;
         _anim.SetBool("isGrounded", true);
     }
 
     public void startSpringBoard()
     {
-        _grounded = false;
-        rigidbody2D.velocity = new Vector2(0, _jumpSpeed * 2);
-    }
-
-    void startClimbingMode()
-    {
-        _climbing = true;
-        _anim.SetBool("isOnLadder", true);
-        rigidbody2D.gravityScale = 0;
-        rigidbody2D.velocity = Vector2.zero;
-    }
-
-    void endClimbingMode()
-    {
-        _climbing = false;
-        _anim.SetBool("isOnLadder", false);
-        rigidbody2D.gravityScale = _gravityScale;
+        rigidbody2D.velocity = new Vector2(0, _jumpSpeed * 1.5f);
     }
 
     void getDoubleJump(Collider2D col)

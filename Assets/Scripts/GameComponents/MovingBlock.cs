@@ -13,8 +13,6 @@ public class            MovingBlock : MonoBehaviour
     public e_dir        _dir = e_dir.HORIZONTAL;
     public int          _speed;
 
-    private int         _ping = 1;
-
     private Vector2     _initPos;
     private Vector2     _endPos;
     private Vector2     _currentPos;
