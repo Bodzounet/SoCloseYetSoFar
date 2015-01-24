@@ -5,6 +5,7 @@ public class                        CharacterController : MonoBehaviour
 {
     public float                    _speed;                                 // speed of the character
     public float                    _jumpSpeed;                             // jumping intensity
+    public float                    _ladderSpeed;                           // ladder speed
     
     private bool                    _grounded = false;                      // jump
     private bool                    _doubleJump = false;                    // i don't think it needs any explaination;
@@ -62,9 +63,9 @@ public class                        CharacterController : MonoBehaviour
 
         if (_climbing)
             if (VAxis > 0)
-                newVelocity.y = _jumpSpeed;
+                newVelocity.y = _ladderSpeed;
             else if (VAxis < 0)
-                newVelocity.y = -_jumpSpeed;
+                newVelocity.y = -_ladderSpeed;
             else
                 newVelocity.y = 0;
 
@@ -139,6 +140,7 @@ public class                        CharacterController : MonoBehaviour
     void startClimbingMode()
     {
         _climbing = true;
+        _anim.SetBool("isOnLadder", true);
         rigidbody2D.gravityScale = 0;
         rigidbody2D.velocity = Vector2.zero;
     }
@@ -146,6 +148,7 @@ public class                        CharacterController : MonoBehaviour
     void endClimbingMode()
     {
         _climbing = false;
+        _anim.SetBool("isOnLadder", false);
         rigidbody2D.gravityScale = _gravityScale;
     }
 
