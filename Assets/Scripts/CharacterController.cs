@@ -112,6 +112,13 @@ public class                        CharacterController : MonoBehaviour
             endClimbingMode();
     }
 
+    public void startJump()
+    {
+        _grounded = false;
+        _doubleJump = false;
+        rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, _jumpSpeed);
+    }
+
     void endJump()
     {
         _grounded = true;
