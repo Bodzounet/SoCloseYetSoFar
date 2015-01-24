@@ -76,7 +76,7 @@ public class                        CharacterController : MonoBehaviour
             else
                 newVelocity.y = 0;
 
-        if ((_grounded || _doubleJump || _climbing || _onMovingPlateform) && Input.GetAxis("Jump") > 0)
+        if ((_grounded || _doubleJump || _climbing || _onMovingPlateform) && Input.GetButton("Jump"))
         {
             _grounded = false;
             _doubleJump = false;
@@ -100,7 +100,7 @@ public class                        CharacterController : MonoBehaviour
         if (Physics2D.Linecast(transform.position + new Vector3(sizeX, 0, 0), transform.position + new Vector3(sizeX, sizeY, 0)))
             rigidbody2D.velocity = new Vector2(0, rigidbody2D.velocity.y);
         if (Physics2D.Linecast(transform.position + new Vector3(-sizeX * 0.5f, sizeY * 1.1f, 0), transform.position + new Vector3(sizeX * 0.5f, sizeY * 1.1f, 0)))
-            rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 0);
+            rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, -1);
     }
 
     void OnDrawGizmos()
