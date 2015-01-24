@@ -10,6 +10,7 @@ public class                        CharacterController : MonoBehaviour
     private bool                    _doubleJump = false;                    // i don't think it needs any explaination;
     private bool                    _climbing = false;                      // climb
     private bool                    _lookLeft = false;                      // is the character looking left
+    private bool                    _isDead = false;
     
     private float                   _gravityScale;                          // since it is set to 0 when we are on a ladder, we must remember it to reset it correctly when we leave the ladder
 
@@ -27,6 +28,9 @@ public class                        CharacterController : MonoBehaviour
 	
 	void Update () 
     {
+      if (_isDead == true)
+        return;
+
         float actualSpeed = (_climbing && !_grounded) ? _speed / 5 : _speed;
         float HAxis = Input.GetAxis("Horizontal");
         float VAxis = Input.GetAxis("Vertical");
@@ -150,6 +154,12 @@ public class                        CharacterController : MonoBehaviour
         _doubleJump = true;
         StartCoroutine("Coroutine_respawnItem", Instantiate(col.gameObject) as GameObject);
         Destroy(col.gameObject);
+    }
+
+    public void dead()
+    {
+      _isDead = true;
+      rigidbody2D.velocity = new Vector2(0, 0);
     }
 
     IEnumerator Coroutine_respawnItem(GameObject go)
