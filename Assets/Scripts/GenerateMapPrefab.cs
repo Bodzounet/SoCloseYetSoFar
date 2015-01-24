@@ -41,7 +41,6 @@ public class                                GenerateMapPrefab : MonoBehaviour
                         if (tmp == id)
                             name = N["tilesets"][k]["name"];                        // also dangerous, if name is never assigned, but it's not supposed to occur if json file is OK.
                     }
-
                     go = Instantiate(dPrefabs[name], spawnPos, Quaternion.identity) as GameObject;
                     go.transform.parent = newPrefab.transform;
                 }
