@@ -51,52 +51,52 @@ TextureImporter:
     - name: block_trampoline_anim_0
       rect:
         serializedVersion: 2
-        x: 6
+        x: 0
         y: 0
-        width: 60
+        width: 75
         height: 75
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: block_trampoline_anim_1
       rect:
         serializedVersion: 2
-        x: 81
+        x: 75
         y: 0
-        width: 60
-        height: 51
-      alignment: 7
-      pivot: {x: .5, y: 0}
+        width: 75
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: block_trampoline_anim_2
       rect:
         serializedVersion: 2
-        x: 156
+        x: 150
         y: 0
-        width: 60
-        height: 33
-      alignment: 7
-      pivot: {x: .5, y: 0}
+        width: 75
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: block_trampoline_anim_3
       rect:
         serializedVersion: 2
-        x: 231
+        x: 225
         y: 0
-        width: 60
-        height: 51
-      alignment: 7
-      pivot: {x: .5, y: 0}
+        width: 75
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: block_trampoline_anim_4
       rect:
         serializedVersion: 2
-        x: 306
+        x: 300
         y: 0
-        width: 60
+        width: 75
         height: 75
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
