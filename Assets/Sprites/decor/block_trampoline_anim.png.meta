@@ -1,7 +1,12 @@
 fileFormatVersion: 2
 guid: 4f9dba7b0ea11274291bf125298358f3
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: block_trampoline_anim_0
+    21300002: block_trampoline_anim_1
+    21300004: block_trampoline_anim_2
+    21300006: block_trampoline_anim_3
+    21300008: block_trampoline_anim_4
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -21,8 +26,8 @@ TextureImporter:
   grayScaleToAlpha: 0
   generateCubemap: 0
   seamlessCubemap: 0
-  textureFormat: -1
-  maxTextureSize: 1024
+  textureFormat: -3
+  maxTextureSize: 4096
   textureSettings:
     filterMode: -1
     aniso: 1
@@ -31,7 +36,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -42,6 +47,56 @@ TextureImporter:
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: block_trampoline_anim_0
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 0
+        width: 60
+        height: 75
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: block_trampoline_anim_1
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 0
+        width: 60
+        height: 51
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: block_trampoline_anim_2
+      rect:
+        serializedVersion: 2
+        x: 156
+        y: 0
+        width: 60
+        height: 33
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: block_trampoline_anim_3
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 0
+        width: 60
+        height: 51
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: block_trampoline_anim_4
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 0
+        width: 60
+        height: 75
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
