@@ -19,7 +19,7 @@ public class            MovingBlock : MonoBehaviour
     private Vector2     _endPos;
     private Vector2     _currentPos;
 
-    private bool        _fromAToB = true;
+    private bool        _moveTo = true;
 
     void Start()
     {
@@ -36,6 +36,7 @@ public class            MovingBlock : MonoBehaviour
 
 	void Update () 
     {
+        _currentPos = transform.position;
         if (_dir == e_dir.HORIZONTAL)
             rigidbody2D.velocity = new Vector2(_speed * calculatePing(_currentPos.x, _initPos.x, _endPos.x), 0);
         else
@@ -44,13 +45,14 @@ public class            MovingBlock : MonoBehaviour
 
     int calculatePing(float current, float targetInf, float targetSup)
     {
-        //if (current >= targetInf && _fromAToB)
-        //{
-        //    if ()
-        //    return 1;
-        //}
-        //if (current <= targetSup && !)
-        //    _ping = -1;
-        return _ping;
+        if (current - targetSup > 0)
+            _moveTo = false;
+        if (current - targetInf < 0)
+            _moveTo = true;
+
+        if (_moveTo == true)
+            return 1;
+        else
+            return -1;
     }
 }
