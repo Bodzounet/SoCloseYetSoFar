@@ -26,7 +26,7 @@ public class                                GenerateMapPrefab : MonoBehaviour
         GameObject          go;
         
         Vector2             spawnPos = Vector2.zero;
-        float               incrXY = prefabs[0].renderer.bounds.size.x;         // a bit dangerous, segF if no prefabs.count == 0 or no prefabs[0].renderer == null, but in both case, it is not supposed to.
+        float               incrXY = prefabs[0].renderer.bounds.size.x;            // a bit dangerous, segF if no prefabs.count == 0 or no prefabs[0].renderer == null, but in both case, it is not supposed to.
 
         for (int i = 0; i < height; i++)
         {
@@ -41,7 +41,6 @@ public class                                GenerateMapPrefab : MonoBehaviour
                         if (tmp == id)
                             name = N["tilesets"][k]["name"];                        // also dangerous, if name is never assigned, but it's not supposed to occur if json file is OK.
                     }
-                    Debug.Log(name);
 
                     go = Instantiate(dPrefabs[name], spawnPos, Quaternion.identity) as GameObject;
                     go.transform.parent = newPrefab.transform;
