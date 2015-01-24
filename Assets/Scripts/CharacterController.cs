@@ -97,7 +97,7 @@ public class                        CharacterController : MonoBehaviour
         layer = ~layer;
 
         RaycastHit2D hit1 = Physics2D.Linecast(transform.position + new Vector3(-_sizeX * 0.3f, _sizeY * 0.2f, 0), transform.position + new Vector3(_sizeX * 0.3f, _sizeY * 0.2f, 0), layer);
-        RaycastHit2D hit2 = Physics2D.Linecast(transform.position + new Vector3(-_sizeX * 0.3f, -_sizeY * 0.8f, 0), transform.position + new Vector3(_sizeX * 0.3f, -_sizeY * 0.8f, 0), layer);
+        RaycastHit2D hit2 = Physics2D.Linecast(transform.position + new Vector3(-_sizeX * 0.3f, _sizeY * 0.8f, 0), transform.position + new Vector3(_sizeX * 0.3f, _sizeY * 0.8f, 0), layer);
 
         if ((hit1 && hit1.transform.gameObject.tag == "Ladder") || (hit2 && hit2.transform.gameObject.tag == "Ladder"))
         {
@@ -120,8 +120,8 @@ public class                        CharacterController : MonoBehaviour
 
     float jump(float currentVal)
     {
-        RaycastHit2D hit = Physics2D.Linecast(transform.position + new Vector3(-_sizeX * 0.9f, -_sizeY * 0.1f, 0), transform.position + new Vector3(_sizeX * 0.9f, -_sizeY * 0.1f, 0));
-        if ((hit && (hit.transform.gameObject.tag == "Ground" || hit.transform.gameObject.tag == "MovingPlateform")) || _doubleJump)
+        RaycastHit2D hit = Physics2D.Linecast(transform.position + new Vector3(-_sizeX * 0.65f, -_sizeY * 0.1f, 0), transform.position + new Vector3(_sizeX * 0.65f, -_sizeY * 0.1f, 0));
+        if ((hit && (hit.transform.gameObject.tag == "Ground" || hit.transform.gameObject.tag == "MovingPlateform")) || _doubleJump || _climbing)
         {
             _doubleJump = false;
             return _jumpSpeed;
@@ -142,25 +142,24 @@ public class                        CharacterController : MonoBehaviour
             rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, -1);
     }
 
-    void OnDrawGizmos()
-    {
-        float sizeX = GetComponent<BoxCollider2D>().size.x;
-        float sizeY = GetComponent<BoxCollider2D>().size.y;
+    //void OnDrawGizmos()
+    //{
+    //    float sizeX = GetComponent<BoxCollider2D>().size.x;
+    //    float sizeY = GetComponent<BoxCollider2D>().size.y;
 
-        if (_lookLeft)
-            sizeX *= -1;
+    //    if (_lookLeft)
+    //        sizeX *= -1;
 
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(transform.position + new Vector3(-sizeX * 0.5f, sizeY * 1.1f, 0), transform.position + new Vector3(sizeX * 0.5f, sizeY * 1.1f, 0));
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(transform.position + new Vector3(sizeX, 0, 0), transform.position + new Vector3(sizeX, sizeY, 0));
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(transform.position + new Vector3(-sizeX * 0.9f, -sizeY * 0.1f, 0), transform.position + new Vector3(sizeX * 0.9f, -sizeY * 0.1f, 0));
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position + new Vector3(-_sizeX * 0.3f, _sizeY * 0.3f, 0), transform.position + new Vector3(_sizeX * 0.3f, _sizeY * 0.3f, 0));
-        Gizmos.DrawLine(transform.position + new Vector3(-_sizeX * 0.3f, _sizeY * 0.6f, 0), transform.position + new Vector3(_sizeX * 0.3f, _sizeY * 0.6f, 0));
-
-    }
+    //    Gizmos.color = Color.green;
+    //    Gizmos.DrawLine(transform.position + new Vector3(-sizeX * 0.5f, sizeY * 1.1f, 0), transform.position + new Vector3(sizeX * 0.5f, sizeY * 1.1f, 0));
+    //    Gizmos.color = Color.blue;
+    //    Gizmos.DrawLine(transform.position + new Vector3(sizeX, 0, 0), transform.position + new Vector3(sizeX, sizeY, 0));
+    //    Gizmos.color = Color.yellow;
+    //    Gizmos.DrawLine(transform.position + new Vector3(-sizeX * 0.65f, -sizeY * 0.1f, 0), transform.position + new Vector3(sizeX * 0.65f, -sizeY * 0.1f, 0));
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawLine(transform.position + new Vector3(-_sizeX * 0.3f, _sizeY * 0.2f, 0), transform.position + new Vector3(_sizeX * 0.3f, _sizeY * 0.2f, 0));
+    //    Gizmos.DrawLine(transform.position + new Vector3(-_sizeX * 0.3f, _sizeY * 0.8f, 0), transform.position + new Vector3(_sizeX * 0.3f, _sizeY * 0.8f, 0));
+    //}
 
     void OnCollisionEnter2D(Collision2D col)
     {
