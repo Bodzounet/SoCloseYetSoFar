@@ -11,7 +11,10 @@ public class                        CharacterController : MonoBehaviour
     private bool                    _doubleJump = false;                    // i don't think it needs any explaination;
     private bool                    _climbing = false;                      // climb
     private bool                    _lookLeft = false;                      // is the character looking left
+
+    private bool                    _onMovingPlateform = false;             // we must let the platorm impose it velocity
     private bool                    _isDead = false;
+
     
     private float                   _gravityScale;                          // since it is set to 0 when we are on a ladder, we must remember it to reset it correctly when we leave the ladder
 
@@ -36,8 +39,12 @@ public class                        CharacterController : MonoBehaviour
         float HAxis = Input.GetAxis("Horizontal");
         float VAxis = Input.GetAxis("Vertical");
 
-        Vector2 newVelocity = new Vector2(0, rigidbody2D.velocity.y);
+        Vector2 newVelocity;
 
+        if (_onMovingPlateform)
+            newVelocity = rigidbody2D.velocity;
+        else
+            newVelocity = new Vector2(0, rigidbody2D.velocity.y);
 
         if (HAxis == 0)
             _anim.SetBool("isWalking", false);
@@ -69,7 +76,7 @@ public class                        CharacterController : MonoBehaviour
             else
                 newVelocity.y = 0;
 
-        if ((_grounded || _doubleJump || _climbing) && Input.GetAxis("Jump") > 0)
+        if ((_grounded || _doubleJump || _climbing || _onMovingPlateform) && Input.GetAxis("Jump") > 0)
         {
             _grounded = false;
             _doubleJump = false;
@@ -77,18 +84,49 @@ public class                        CharacterController : MonoBehaviour
         }
 
         rigidbody2D.velocity = newVelocity;
+        fixWallBug();
 
         _anim.SetFloat("verticalVelocity", _rb2d.velocity.y);
 	}
+
+    void fixWallBug()
+    {
+        float sizeX = renderer.bounds.size.x * 1.5f;
+        float sizeY = renderer.bounds.size.y;
+
+        if (_lookLeft)
+            sizeX *= -1;
+
+        if (Physics2D.Linecast(transform.position + new Vector3(sizeX,0, 0), transform.position + new Vector3(sizeX, sizeY, 0)))
+            rigidbody2D.velocity = new Vector2(0, rigidbody2D.velocity.y);
+        if (Physics2D.Linecast(transform.position + new Vector3(-sizeX * 0.5f, sizeY * 1.1f, 0), transform.position + new Vector3(sizeX * 0.5f, sizeY * 1.1f, 0)))
+            rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, -5);
+    }
+
+    //void OnDrawGizmos()
+    //{
+    //    float sizeX = renderer.bounds.size.x * 1.5f;
+    //    float sizeY = renderer.bounds.size.y;
+
+    //    if (_lookLeft)
+    //        sizeX *= -1;
+
+    //    Gizmos.color = Color.green;
+    //    Gizmos.DrawLine(transform.position + new Vector3(-sizeX * 0.5f, sizeY * 1.1f, 0), transform.position + new Vector3(sizeX * 0.5f, sizeY * 1.1f, 0));
+    //    Gizmos.DrawLine(transform.position + new Vector3(sizeX,0, 0), transform.position + new Vector3(sizeX, sizeY, 0));
+    //}
 
     void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.tag == "Ground")
             endJump();
-        else if (col.gameObject.tag == "Moveable")
-            col.gameObject.rigidbody2D.velocity = new Vector2(_speed / 5, col.gameObject.rigidbody2D.velocity.y);
-        else if (col.gameObject.tag == "SpringBoard")
-            startSpringBoard();
+        //else if (col.gameObject.tag == "SpringBoard")
+        //    startSpringBoard();
+        else if (col.gameObject.tag == "MovingPlateform")
+        {
+            _onMovingPlateform = true;
+            endJump();
+        }
     }
 
     void OnCollisionExit2D(Collision2D col)
@@ -98,8 +136,11 @@ public class                        CharacterController : MonoBehaviour
             _grounded = false;
             _anim.SetBool("isGrounded", false);
         }
-        if (col.gameObject.tag == "Moveable")
-            col.gameObject.rigidbody2D.velocity = Vector2.zero;
+        else if (col.gameObject.tag == "MovingPlateform")
+        {
+            _grounded = false;
+            _onMovingPlateform = false;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D col)
@@ -131,7 +172,7 @@ public class                        CharacterController : MonoBehaviour
         _anim.SetBool("isGrounded", true);
     }
 
-    void startSpringBoard()
+    public void startSpringBoard()
     {
         _grounded = false;
         rigidbody2D.velocity = new Vector2(0, _jumpSpeed * 2);

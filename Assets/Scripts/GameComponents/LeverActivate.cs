@@ -18,7 +18,8 @@ public class LeverActivate : MonoBehaviour
     _isTriggered = false;
   }
 
-  void OnTriggerStay2D(Collider2D col)  {
+  void OnTriggerStay2D(Collider2D col)
+  {
     if (_isTriggered == false && col.gameObject.tag == "Player" && Input.GetButton("Fire1"))
     {
       _isTriggered = true;
