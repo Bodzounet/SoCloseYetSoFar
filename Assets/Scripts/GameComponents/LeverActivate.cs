@@ -4,6 +4,7 @@ using System.Collections;
 public class LeverActivate : MonoBehaviour
 {
 
+
     public GameObject[] affectedBlock;
     private bool _isTriggered;
 
