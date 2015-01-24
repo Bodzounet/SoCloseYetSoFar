@@ -16,7 +16,7 @@ public class                        CharacterController : MonoBehaviour
 
 	void Start () 
     {
-	
+        _gravityScale = rigidbody2D.gravityScale;
 	}
 	
 	void Update () 
@@ -101,7 +101,6 @@ public class                        CharacterController : MonoBehaviour
     void startClimbingMode()
     {
         _climbing = true;
-        _gravityScale = rigidbody2D.gravityScale;
         rigidbody2D.gravityScale = 0;
         rigidbody2D.velocity = Vector2.zero;
     }
