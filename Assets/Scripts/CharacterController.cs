@@ -76,32 +76,38 @@ public class                        CharacterController : MonoBehaviour
             else
                 newVelocity.y = 0;
 
-        print(_grounded + " " + _doubleJump + " " + _climbing + " " + _onMovingPlateform);
         if ((_grounded || _doubleJump || _climbing || _onMovingPlateform) && Input.GetAxis("Jump") > 0)
         {
+            print("coucou !");
             _grounded = false;
             _doubleJump = false;
             newVelocity.y = _jumpSpeed;
         }
 
         rigidbody2D.velocity = newVelocity;
-        //fixWallBug();
+        fixWallBug();
 
         _anim.SetFloat("verticalVelocity", _rb2d.velocity.y);
 	}
 
     void fixWallBug()
     {
-        float sizeX = renderer.bounds.size.x;
+        float sizeX = GetComponent<BoxCollider2D>().size.x;
         float sizeY = renderer.bounds.size.y;
 
         if (_lookLeft)
             sizeX *= -1;
 
-        if (Physics2D.Linecast(transform.position + new Vector3(sizeX,0, 0), transform.position + new Vector3(sizeX, sizeY, 0)))
+        if (Physics2D.Linecast(transform.position + new Vector3(sizeX, 0, 0), transform.position + new Vector3(sizeX, sizeY, 0)))
+        {
+            print("MUR !");
             rigidbody2D.velocity = new Vector2(0, rigidbody2D.velocity.y);
+        }
         if (Physics2D.Linecast(transform.position + new Vector3(-sizeX * 0.5f, sizeY * 1.1f, 0), transform.position + new Vector3(sizeX * 0.5f, sizeY * 1.1f, 0)))
+        {
+            print("PLAFOND !");
             rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 0);
+        }
     }
 
     void OnDrawGizmos()
@@ -134,7 +140,6 @@ public class                        CharacterController : MonoBehaviour
     {
         if (col.gameObject.tag == "Ground")
         {
-            print("coucou !");
             _grounded = false;
             _anim.SetBool("isGrounded", false);
         }
