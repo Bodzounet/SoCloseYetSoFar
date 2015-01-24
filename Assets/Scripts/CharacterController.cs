@@ -30,8 +30,6 @@ public class                        CharacterController : MonoBehaviour
             newVelocity.x = -actualSpeed;
         else if (_grounded || _climbing)
             newVelocity = Vector2.zero;
-        else if (!_grounded)
-            newVelocity.x = 0;
 
         if (_climbing)
             if (VAxis > 0)
@@ -56,8 +54,6 @@ public class                        CharacterController : MonoBehaviour
             _grounded = true;
         else if (col.gameObject.tag == "Moveable")
             col.gameObject.rigidbody2D.velocity = new Vector2(_speed / 5, col.gameObject.rigidbody2D.velocity.y);
-        else if (col.gameObject.tag == "SpringBoard")
-            rigidbody2D.velocity = new Vector2(0, _jumpSpeed * 2);
     }
 
     void OnCollisionExit2D(Collision2D col)
