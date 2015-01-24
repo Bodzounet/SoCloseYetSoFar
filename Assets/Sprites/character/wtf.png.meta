@@ -50,42 +50,42 @@ TextureImporter:
     - name: wtf_0
       rect:
         serializedVersion: 2
-        x: 252
+        x: 0
         y: 0
-        width: 93
+        width: 57
         height: 157
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: wtf_1
-      rect:
-        serializedVersion: 2
-        x: 150
-        y: 0
-        width: 93
-        height: 157
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: wtf_2
       rect:
         serializedVersion: 2
         x: 66
         y: 0
         width: 75
         height: 157
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: wtf_2
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 0
+        width: 93
+        height: 157
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: wtf_3
       rect:
         serializedVersion: 2
-        x: 0
+        x: 252
         y: 0
-        width: 57
+        width: 93
         height: 157
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

@@ -6,18 +6,24 @@ public class                        CharacterController : MonoBehaviour
     public float                    _speed;                                 // speed of the character
     public float                    _jumpSpeed;                             // jumping intensity
     
-    public float                    _respawnItemTime;                       // time before consummables or destructibles items repop
-
     private bool                    _grounded = false;                      // jump
     private bool                    _doubleJump = false;                    // i don't think it needs any explaination;
     private bool                    _climbing = false;                      // climb
+    private bool                    _lookLeft = false;                      // is the character looking left
     
     private float                   _gravityScale;                          // since it is set to 0 when we are on a ladder, we must remember it to reset it correctly when we leave the ladder
+
+    private Animator                _anim;                                  // animator
+    private Transform               _t;                                     // transform
+    private Rigidbody2D             _rb2d;                                  // rigidbody2d
 
 	void Start () 
     {
         _gravityScale = rigidbody2D.gravityScale;
-	}
+        _anim = GetComponent<Animator>();
+        _t = GetComponent<Transform>();
+        _rb2d = GetComponent<Rigidbody2D>();
+    }
 	
 	void Update () 
     {
@@ -26,12 +32,27 @@ public class                        CharacterController : MonoBehaviour
         float VAxis = Input.GetAxis("Vertical");
 
         Vector2 newVelocity = new Vector2(0, rigidbody2D.velocity.y);
-        
+
+
+        if (HAxis == 0)
+            _anim.SetBool("isWalking", false);
+        else
+            _anim.SetBool("isWalking", true);
 
         if (HAxis > 0)
+        {
+            if (_lookLeft == true)
+                _t.localScale = new Vector3(1, 1, 1);
+            _lookLeft = false;
             newVelocity.x = actualSpeed;
+        }
         else if (HAxis < 0)
+        {
+            if (_lookLeft == false)
+                _t.localScale = new Vector3(-1, 1, 1);
+            _lookLeft = true;
             newVelocity.x = -actualSpeed;
+        }
         else if (_climbing)
             newVelocity = Vector2.zero;
 
@@ -51,6 +72,8 @@ public class                        CharacterController : MonoBehaviour
         }
 
         rigidbody2D.velocity = newVelocity;
+
+        _anim.SetFloat("verticalVelocity", _rb2d.velocity.y);
 	}
 
     void OnCollisionEnter2D(Collision2D col)
@@ -66,14 +89,17 @@ public class                        CharacterController : MonoBehaviour
     void OnCollisionExit2D(Collision2D col)
     {
         if (col.gameObject.tag == "Ground")
+        {
             _grounded = false;
+            _anim.SetBool("isGrounded", false);
+        }
         if (col.gameObject.tag == "Moveable")
             col.gameObject.rigidbody2D.velocity = Vector2.zero;
     }
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.tag == "Ladder")
+        if (col.tag == "Ladder" && _rb2d.velocity.y <= 0)
             startClimbingMode();
         else if (col.tag == "BonusDoubleJump")
             getDoubleJump(col);
@@ -97,6 +123,7 @@ public class                        CharacterController : MonoBehaviour
     {
         _grounded = true;
         _doubleJump = false;
+        _anim.SetBool("isGrounded", true);
     }
 
     void startSpringBoard()
