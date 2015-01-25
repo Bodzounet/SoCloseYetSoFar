@@ -16,8 +16,8 @@ public class LockedDoor : MonoBehaviour {
     {
         if (key.GetComponent<KeyBehaviour>()._isPickedUp)
         {
-            col.GetComponent<Animator>().Play("wtf");
-            StartCoroutine("LoadNextLevel");
+          col.GetComponent<Animator>().Play("wtf");
+          StartCoroutine("LoadNextLevel");
         }
     }
 }
