@@ -49,7 +49,7 @@ public class                                GenerateMapPrefab : MonoBehaviour
             spawnPos.x = 0;
             spawnPos.y -= incrXY;
         }
-        UnityEditor.PrefabUtility.CreatePrefab("Assets/prefab/testPrefab.prefab", newPrefab, UnityEditor.ReplacePrefabOptions.Default);
+        //UnityEditor.PrefabUtility.CreatePrefab("Assets/prefab/testPrefab.prefab", newPrefab, UnityEditor.ReplacePrefabOptions.Default);
 	}
 
     void                                    initMap()
