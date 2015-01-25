@@ -16,7 +16,7 @@ public class KillPlayer : MonoBehaviour
 
   IEnumerator loadDeath()
   {
-    yield return new WaitForSeconds(2);
+    yield return new WaitForSeconds(1);
     Application.LoadLevel(Application.loadedLevelName);
   }
 }
