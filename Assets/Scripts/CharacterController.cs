@@ -140,28 +140,28 @@ public class                        CharacterController : MonoBehaviour
 
         if (Physics2D.Linecast(transform.position + new Vector3(X, 0, 0), transform.position + new Vector3(X, _sizeY, 0)))
             rigidbody2D.velocity = new Vector2(0, rigidbody2D.velocity.y);
-        if (Physics2D.Linecast(transform.position + new Vector3(-X * 0.5f, _sizeY * 1.1f, 0), transform.position + new Vector3(X * 0.5f, _sizeY * 1.1f, 0)))
+        if (Physics2D.Linecast(transform.position + new Vector3(-X * 0.65f, _sizeY * 1.1f, 0), transform.position + new Vector3(X * 0.65f, _sizeY * 1.1f, 0)))
             rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, -1);
     }
 
-    //void OnDrawGizmos()
-    //{
-    //    float sizeX = GetComponent<BoxCollider2D>().size.x;
-    //    float sizeY = GetComponent<BoxCollider2D>().size.y;
+    void OnDrawGizmos()
+    {
+        float sizeX = GetComponent<BoxCollider2D>().size.x;
+        float sizeY = GetComponent<BoxCollider2D>().size.y;
 
-    //    if (_lookLeft)
-    //        sizeX *= -1;
+        if (_lookLeft)
+            sizeX *= -1;
 
-    //    Gizmos.color = Color.green;
-    //    Gizmos.DrawLine(transform.position + new Vector3(-sizeX * 0.5f, sizeY * 1.1f, 0), transform.position + new Vector3(sizeX * 0.5f, sizeY * 1.1f, 0));
-    //    Gizmos.color = Color.blue;
-    //    Gizmos.DrawLine(transform.position + new Vector3(sizeX, 0, 0), transform.position + new Vector3(sizeX, sizeY, 0));
-    //    Gizmos.color = Color.yellow;
-    //    Gizmos.DrawLine(transform.position + new Vector3(-sizeX * 0.65f, -sizeY * 0.1f, 0), transform.position + new Vector3(sizeX * 0.65f, -sizeY * 0.1f, 0));
-    //    Gizmos.color = Color.red;
-    //    Gizmos.DrawLine(transform.position + new Vector3(-_sizeX * 0.3f, _sizeY * 0.2f, 0), transform.position + new Vector3(_sizeX * 0.3f, _sizeY * 0.2f, 0));
-    //    Gizmos.DrawLine(transform.position + new Vector3(-_sizeX * 0.3f, _sizeY * 0.8f, 0), transform.position + new Vector3(_sizeX * 0.3f, _sizeY * 0.8f, 0));
-    //}
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(transform.position + new Vector3(-sizeX * 0.65f, sizeY * 1.1f, 0), transform.position + new Vector3(sizeX * 0.65f, sizeY * 1.1f, 0));
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(transform.position + new Vector3(sizeX, 0, 0), transform.position + new Vector3(sizeX, sizeY, 0));
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(transform.position + new Vector3(-sizeX * 0.65f, -sizeY * 0.1f, 0), transform.position + new Vector3(sizeX * 0.65f, -sizeY * 0.1f, 0));
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position + new Vector3(-_sizeX * 0.3f, _sizeY * 0.2f, 0), transform.position + new Vector3(_sizeX * 0.3f, _sizeY * 0.2f, 0));
+        Gizmos.DrawLine(transform.position + new Vector3(-_sizeX * 0.3f, _sizeY * 0.8f, 0), transform.position + new Vector3(_sizeX * 0.3f, _sizeY * 0.8f, 0));
+    }
 
     void OnCollisionEnter2D(Collision2D col)
     {
