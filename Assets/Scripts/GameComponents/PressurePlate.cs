@@ -3,11 +3,18 @@ using System.Collections;
 
 public class PressurePlate : MonoBehaviour {
 
-	void Start () {
+    public GameObject[]     affectedBlock;
+    public GameObject       wiredDoor;
 	
+    void Start () {
+        for (int i = 0; i < affectedBlock.Length; i++)
+            affectedBlock[i].SetActive(false);
 	}
-	
-	void Update () {
-	
-	}
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        for (int i = 0; i < affectedBlock.Length; i++)
+            affectedBlock[i].SetActive(true);
+        wiredDoor.SetActive(false);
+    }
 }
