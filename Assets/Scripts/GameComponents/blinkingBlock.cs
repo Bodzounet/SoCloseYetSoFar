@@ -5,7 +5,7 @@ public class                blinkingBlock : MonoBehaviour
 {   
     BoxCollider2D           _bc2D;
     SpriteRenderer          _sr;
-    Color                   _color;
+    Color                   _color = Color.white;
     Color                   _visible;
     Color                   _invisible;
 
@@ -16,8 +16,8 @@ public class                blinkingBlock : MonoBehaviour
 	void Start () 
     {
         _bc2D = GetComponent<BoxCollider2D>();
-        _color = GetComponent<SpriteRenderer>().color;
         _sr = GetComponent<SpriteRenderer>();
+        _sr.color = Color.white;
         _visible = new Color(_color.r, _color.g, _color.b, 1);
         _invisible = new Color(_color.r, _color.g, _color.b, 0);
         StartCoroutine("changeState");
