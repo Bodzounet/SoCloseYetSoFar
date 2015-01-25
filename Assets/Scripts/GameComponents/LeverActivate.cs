@@ -16,7 +16,9 @@ public class LeverActivate : MonoBehaviour
       _anim.SetBool("isActive", !_anim.GetBool("isActive"));
       for (int i = 0; i < affectedBlock.Length; i++)
       {
-        affectedBlock[i].SetActive(!affectedBlock[i].activeSelf);
+          affectedBlock[i].SetActive(!affectedBlock[i].activeSelf);
+          if (affectedBlock[i].activeSelf && affectedBlock[i].name == "blinking_block(Clone)")
+              affectedBlock[i].GetComponent<blinkingBlock>().reset();
       }
       StartCoroutine("reActivate");
     }
