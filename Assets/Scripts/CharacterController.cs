@@ -23,6 +23,8 @@ public class                        CharacterController : MonoBehaviour
     float                           _sizeX;
     float                           _sizeY;
 
+    Vector2                         plateformVelocity;                      // if we are on a plateform, it's its velocity
+
 	void Start () 
     {
         _sizeX = GetComponent<BoxCollider2D>().size.x;
@@ -43,14 +45,9 @@ public class                        CharacterController : MonoBehaviour
         float HAxis = Input.GetAxis("Horizontal");
         float VAxis = Input.GetAxis("Vertical");
 
-        Vector2 newVelocity;
+        Vector2 newVelocity = new Vector2(0, rigidbody2D.velocity.y);
 
         _climbing = isClimbing();
-
-        if (isOnMovingPlateform()) // the plateform must impose its velocity
-            newVelocity = rigidbody2D.velocity;
-        else                       // otherwise, we just keep the Y component is case of fall, the X is set to 0 for an instant stop
-            newVelocity = new Vector2(0, rigidbody2D.velocity.y);
 
         if (HAxis == 0)
             _anim.SetBool("isWalking", false);
@@ -73,6 +70,8 @@ public class                        CharacterController : MonoBehaviour
         }
         else if (_climbing)
             newVelocity = Vector2.zero;
+        else if (isOnMovingPlateform())
+            newVelocity = plateformVelocity;
 
         if (_climbing)
             if (VAxis > 0)
@@ -114,7 +113,10 @@ public class                        CharacterController : MonoBehaviour
     {
         RaycastHit2D hit = Physics2D.Linecast(transform.position + new Vector3(-_sizeX * 0.9f, -_sizeY * 0.1f, 0), transform.position + new Vector3(_sizeX * 0.9f, -_sizeY * 0.1f, 0));
         if (hit && hit.transform.gameObject.tag == "MovingPlateform")
+        {
+            plateformVelocity = hit.rigidbody.velocity;
             return true;
+        }
         return false;
     }
 
