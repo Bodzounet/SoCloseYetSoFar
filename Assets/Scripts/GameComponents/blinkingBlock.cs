@@ -13,15 +13,37 @@ public class                blinkingBlock : MonoBehaviour
 
     bool                    _isPopping = false;
 
-	void Start () 
+    public string msg = null;
+
+    void Awake()
+    {
+        StartCoroutine("changeState");
+    }
+
+	public void Start () 
     {
         _bc2D = GetComponent<BoxCollider2D>();
+        _bc2D.enabled = true;
         _sr = GetComponent<SpriteRenderer>();
-        _sr.color = Color.white;
+        _sr.color = new Color(1, 1, 1, 1);
         _visible = new Color(_color.r, _color.g, _color.b, 1);
         _invisible = new Color(_color.r, _color.g, _color.b, 0);
-        StartCoroutine("changeState");
+        
 	}
+
+    public void reset()
+    {
+        StopAllCoroutines();
+        _bc2D = GetComponent<BoxCollider2D>();
+        _bc2D.enabled = true;
+        _sr = GetComponent<SpriteRenderer>();
+        _sr.color = new Color(1, 1, 1, 1);
+        _visible = new Color(_color.r, _color.g, _color.b, 1);
+        _invisible = new Color(_color.r, _color.g, _color.b, 0);
+        _isPopping = false;
+        _lerpingVal = 0;
+        StartCoroutine("changeState");
+    }
 
     void Update()
     {
