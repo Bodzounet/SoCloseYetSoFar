@@ -201,7 +201,7 @@ public class                        CharacterController : MonoBehaviour
     void getDoubleJump(Collider2D col)
     {
         _doubleJump = true;
-        StartCoroutine("Coroutine_respawnItem", Instantiate(col.gameObject) as GameObject);
+        StartCoroutine("Coroutine_respawnItem", Instantiate(col.gameObject, col.gameObject.transform.position, Quaternion.identity) as GameObject);
         Destroy(col.gameObject);
     }
 

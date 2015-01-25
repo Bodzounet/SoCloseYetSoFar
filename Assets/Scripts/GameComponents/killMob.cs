@@ -10,7 +10,7 @@ public class            killMob : MonoBehaviour
             float x = renderer.bounds.size.x;
             float y = renderer.bounds.size.y;
 
-            RaycastHit2D hit = Physics2D.Linecast(transform.position + new Vector3(-x * 0.8f, y, 0), transform.position + new Vector3(x * 0.8f, y, 0));
+            RaycastHit2D hit = Physics2D.Linecast(transform.position + new Vector3(-x * 0.2f, y * 0.2f, 0), transform.position + new Vector3(x * 0.2f, y * 0.2f, 0));
             if (hit && hit.transform.gameObject.tag == "Player")
             {
                 col.gameObject.GetComponent<CharacterController>().startJump();
@@ -24,6 +24,14 @@ public class            killMob : MonoBehaviour
             }
         }
     }
+
+    //void OnDrawGizmos()
+    //{
+    //    float x = renderer.bounds.size.x;
+    //    float y = renderer.bounds.size.y;
+
+    //    Gizmos.DrawLine(transform.position + new Vector3(-x * 0.2f, y * 0.2f, 0), transform.position + new Vector3(x * 0.2f, y * 0.2f, 0));
+    //}
 
   IEnumerator loadDeath()
   {
