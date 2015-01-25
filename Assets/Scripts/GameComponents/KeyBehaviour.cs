@@ -23,6 +23,7 @@ public class KeyBehaviour : MonoBehaviour {
 
   void OnTriggerEnter2D(Collider2D col)
   {
-    _target = col.transform;
+    if (_target == null && col.gameObject.tag == "Player")
+      _target = col.transform;
   }
 }
