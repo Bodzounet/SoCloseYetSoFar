@@ -1,19 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class RaiseFlag : MonoBehaviour {
+public class WiredDoor : MonoBehaviour {
+
+    public GameObject wiredDoor;
 
     IEnumerator LoadNextLevel()
     {
         yield return new WaitForSeconds(2);
-        Application.LoadLevel("lvl2");
+        Application.LoadLevel("lvl3");
     }
 
-    void OnTriggerEnter2D(Collider2D col) {
-        if (col.tag == "Player")
+    void    OnTriggerEnter2D(Collider2D col) {
+        if (wiredDoor.activeSelf == false)
         {
             col.GetComponent<Animator>().Play("wtf");
-            GetComponent<Animator>().Play("raise_flag");
             StartCoroutine("LoadNextLevel");
         }
     }
