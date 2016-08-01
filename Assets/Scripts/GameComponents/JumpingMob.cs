@@ -12,7 +12,7 @@ public class            JumpingMob : MonoBehaviour
         if (!_isJumping)
         {
             _isJumping = true;
-            rigidbody2D.velocity = new Vector2(0, _jumpingSpeed);
+            GetComponent<Rigidbody2D>().velocity = new Vector2(0, _jumpingSpeed);
         }
 	}
 

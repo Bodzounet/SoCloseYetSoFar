@@ -30,7 +30,7 @@ public class                        CharacterController : MonoBehaviour
         _sizeX = GetComponent<BoxCollider2D>().size.x;
         _sizeY = GetComponent<BoxCollider2D>().size.y;
 
-        _gravityScale = rigidbody2D.gravityScale;
+        _gravityScale = GetComponent<Rigidbody2D>().gravityScale;
         _anim = GetComponent<Animator>();
         _t = GetComponent<Transform>();
         _rb2d = GetComponent<Rigidbody2D>();
@@ -45,7 +45,7 @@ public class                        CharacterController : MonoBehaviour
         float HAxis = Input.GetAxis("Horizontal");
         float VAxis = Input.GetAxis("Vertical");
 
-        Vector2 newVelocity = new Vector2(0, rigidbody2D.velocity.y);
+        Vector2 newVelocity = new Vector2(0, GetComponent<Rigidbody2D>().velocity.y);
 
         _climbing = isClimbing();
 
@@ -84,7 +84,7 @@ public class                        CharacterController : MonoBehaviour
         if (Input.GetButton("Jump"))
             newVelocity.y = jump(newVelocity.y);
 
-        rigidbody2D.velocity = newVelocity;
+        GetComponent<Rigidbody2D>().velocity = newVelocity;
         fixWallBug();
 
         _anim.SetFloat("verticalVelocity", _rb2d.velocity.y);
@@ -100,11 +100,11 @@ public class                        CharacterController : MonoBehaviour
 
         if ((hit1 && hit1.transform.gameObject.tag == "Ladder") || (hit2 && hit2.transform.gameObject.tag == "Ladder"))
         {
-            rigidbody2D.gravityScale = 0;
+            GetComponent<Rigidbody2D>().gravityScale = 0;
             _anim.SetBool("isOnLadder", true);
             return true;
         }
-        rigidbody2D.gravityScale = _gravityScale;
+        GetComponent<Rigidbody2D>().gravityScale = _gravityScale;
         _anim.SetBool("isOnLadder", false);
         return false;
     }
@@ -139,9 +139,9 @@ public class                        CharacterController : MonoBehaviour
             X *= -1;
 
         if (Physics2D.Linecast(transform.position + new Vector3(X, 0, 0), transform.position + new Vector3(X, _sizeY, 0)))
-            rigidbody2D.velocity = new Vector2(0, rigidbody2D.velocity.y);
+            GetComponent<Rigidbody2D>().velocity = new Vector2(0, GetComponent<Rigidbody2D>().velocity.y);
         if (Physics2D.Linecast(transform.position + new Vector3(-X * 0.65f, _sizeY * 1.1f, 0), transform.position + new Vector3(X * 0.65f, _sizeY * 1.1f, 0)))
-            rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, -1);
+            GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, -1);
     }
 
     //void OnDrawGizmos()
@@ -184,7 +184,7 @@ public class                        CharacterController : MonoBehaviour
     public void startJump()
     {
         _doubleJump = false;
-        rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, _jumpSpeed);
+        GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, _jumpSpeed);
     }
 
     void endJump()
@@ -195,7 +195,7 @@ public class                        CharacterController : MonoBehaviour
 
     public void startSpringBoard()
     {
-        rigidbody2D.velocity = new Vector2(0, _jumpSpeed * 1.5f);
+        GetComponent<Rigidbody2D>().velocity = new Vector2(0, _jumpSpeed * 1.5f);
     }
 
     void getDoubleJump(Collider2D col)
@@ -208,7 +208,7 @@ public class                        CharacterController : MonoBehaviour
     public void dead()
     {
       _isDead = true;
-      rigidbody2D.velocity = new Vector2(0, 0);
+      GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
     }
 
     IEnumerator Coroutine_respawnItem(GameObject go)

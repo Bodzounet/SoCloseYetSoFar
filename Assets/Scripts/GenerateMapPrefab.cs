@@ -26,7 +26,7 @@ public class                                GenerateMapPrefab : MonoBehaviour
         GameObject          go;
         
         Vector2             spawnPos = Vector2.zero;
-        float               incrXY = prefabs[0].renderer.bounds.size.x;            // a bit dangerous, segF if no prefabs.count == 0 or no prefabs[0].renderer == null, but in both case, it is not supposed to.
+        float               incrXY = prefabs[0].GetComponent<Renderer>().bounds.size.x;            // a bit dangerous, segF if no prefabs.count == 0 or no prefabs[0].renderer == null, but in both case, it is not supposed to.
 
         for (int i = 0; i < height; i++)
         {

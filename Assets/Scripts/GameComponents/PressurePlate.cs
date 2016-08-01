@@ -15,6 +15,7 @@ public class PressurePlate : MonoBehaviour {
     {
         for (int i = 0; i < affectedBlock.Length; i++)
             affectedBlock[i].SetActive(true);
-        wiredDoor.SetActive(false);
+        if (wiredDoor != null)
+            wiredDoor.SetActive(false);
     }
 }

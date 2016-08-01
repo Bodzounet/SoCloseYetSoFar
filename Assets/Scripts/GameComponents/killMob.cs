@@ -7,8 +7,8 @@ public class            killMob : MonoBehaviour
     {
         if (col.gameObject.tag == "Player")
         {
-            float x = renderer.bounds.size.x;
-            float y = renderer.bounds.size.y;
+            float x = GetComponent<Renderer>().bounds.size.x;
+            float y = GetComponent<Renderer>().bounds.size.y;
 
             RaycastHit2D hit = Physics2D.Linecast(transform.position + new Vector3(-x * 0.2f, y * 0.2f, 0), transform.position + new Vector3(x * 0.2f, y * 0.2f, 0));
             if (hit && hit.transform.gameObject.tag == "Player")

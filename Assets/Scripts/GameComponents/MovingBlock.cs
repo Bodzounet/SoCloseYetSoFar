@@ -24,7 +24,7 @@ public class            MovingBlock : MonoBehaviour
         _initPos = transform.position;
         _currentPos = _initPos;
 
-        float incr = (_distanceInBlock) * renderer.bounds.size.x;
+        float incr = (_distanceInBlock) * GetComponent<Renderer>().bounds.size.x;
 
         if (_dir == e_dir.HORIZONTAL)
             _endPos = _initPos + new Vector2(incr, 0);
@@ -36,9 +36,9 @@ public class            MovingBlock : MonoBehaviour
     {
         _currentPos = transform.position;
         if (_dir == e_dir.HORIZONTAL)
-            rigidbody2D.velocity = new Vector2(_speed * calculatePing(_currentPos.x, _initPos.x, _endPos.x), 0);
+            GetComponent<Rigidbody2D>().velocity = new Vector2(_speed * calculatePing(_currentPos.x, _initPos.x, _endPos.x), 0);
         else
-            rigidbody2D.velocity = new Vector2(0, _speed * calculatePing(_currentPos.y, _initPos.y, _endPos.y));
+            GetComponent<Rigidbody2D>().velocity = new Vector2(0, _speed * calculatePing(_currentPos.y, _initPos.y, _endPos.y));
 	}
 
     int calculatePing(float current, float targetInf, float targetSup)
